@@ -1,0 +1,16 @@
+---
+- name: Download py3.8 from python.org
+  hosts: cent
+  become: yes
+  become_user: root
+  tasks:
+    - name: Install Compile RPMs
+      yum:
+        state: present
+        name:
+          - make
+          - gcc
+          - openssl-devel
+          - bzip2-devel
+          - libffi-devel
+          - zlib-devel

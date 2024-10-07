@@ -1,0 +1,11 @@
+---
+- name: Download py3.8 from python.org
+  hosts: cent
+  become: yes
+  become_user: root
+  tasks:
+    - name: Updating CentOS 8 yum repos
+      shell: |
+        cd /etc/yum.repos.d
+        sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+        sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*

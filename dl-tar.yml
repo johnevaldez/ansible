@@ -1,0 +1,27 @@
+---
+- name: Download py3.8 from python.org
+  hosts: cent
+  become: yes
+  become_user: root
+  tasks:
+    - name: Download Py3.8
+      ansible.builtin.get_url:
+        url: https://www.python.org/ftp/python/3.8.17/Python-3.8.17.tgz
+        dest: /tmp/Python-3.8.17.tgz
+
+    - name: Create /test dir
+      shell: mkdir /test
+
+    - name: Extract py3.8 into /test
+      shell:
+        tar xzf /tmp/Python-3.8.17.tgz -C /test
+
+    - name: Configure py3.8 into /usr/local
+      shell: |
+        cd /test/Python-3.8.17
+        ./configure --enabled-shared
+        make
+        make altinstall
+        cp --no-clobber ./libpython3.8.so* /lib64/
+        chmod 755 /lib64/libpython3.8.so*
+        chmod -R 755 /usr/local/lib/python3.8
